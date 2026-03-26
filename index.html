@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Pedido de Namoro | Para Você</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffdde1 0%, #f9c9e2 40%, #ffb7c5 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* corações flutuantes animados */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.4rem;
+            color: rgba(255, 80, 120, 0.5);
+            animation: floatHeart 8s linear infinite;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* container principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(3px);
+            border-radius: 60px 60px 70px 70px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255,255,255,0.8);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,240,0.7);
+        }
+
+        /* cabeçalho romântico */
+        .hero {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffced4);
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid #fff3f5;
+        }
+
+        .hero i {
+            font-size: 3.5rem;
+            color: #ff3366;
+            filter: drop-shadow(2px 4px 12px rgba(0,0,0,0.2));
+            animation: pulseIcon 1.8s infinite;
+        }
+
+        @keyframes pulseIcon {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.08); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #a1224a;
+            margin-top: 0.5rem;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 10px rgba(255,215,225,0.8);
+        }
+
+        .sub {
+            font-size: 0.9rem;
+            color: #b34e6e;
+            background: #fff0f3dd;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(2px);
+            margin-top: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* conteúdo principal */
+        .content {
+            padding: 2rem 1.8rem 2rem;
+            text-align: center;
+        }
+
+        /* cartão da mensagem personalizada */
+        .message-card {
+            background: #fff9fb;
+            border-radius: 48px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05), inset 0 1px 0 white;
+            border: 1px solid #ffcddc;
+            text-align: left;
+        }
+
+        .message-card p {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #4a2c36;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .message-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .signature {
+            margin-top: 1rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: #c63b6b;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* foto romântica */
+        .photo-area {
+            margin: 1.5rem 0 1.8rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .romantic-photo {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 32px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+            border: 4px solid white;
+            transition: transform 0.3s ease;
+            object-fit: cover;
+        }
+
+        .romantic-photo:hover {
+            transform: scale(1.02);
+        }
+
+        /* pergunta romântica */
+        .question-box {
+            background: linear-gradient(135deg, #ffe6ed, #fff0f5);
+            border-radius: 50px;
+            padding: 1.2rem;
+            margin: 1rem 0 1.5rem;
+            text-align: center;
+            border: 2px dashed #ff99bb;
+        }
+
+        .question-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #c63b6b;
+            margin-bottom: 0.3rem;
+        }
+
+        .question-sub {
+            font-size: 0.85rem;
+            color: #b34e6e;
+            font-weight: 500;
+        }
+
+        /* botoes interativos */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .btn {
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-yes {
+            background: #ff6b8b;
+            color: white;
+            border: 1px solid #ffb7c5;
+        }
+
+        .btn-yes:hover {
+            background: #ff3b64;
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px rgba(255, 60, 90, 0.3);
+        }
+
+        .btn-no {
+            background: #e2e0e0;
+            color: #5f4b54;
+            border: 1px solid #d1bfc6;
+        }
+
+        .btn-no:hover {
+            background: #d4cfcf;
+            transform: scale(0.97);
+        }
+
+        /* resposta surpresa */
+        .surprise-card {
+            margin-top: 1.8rem;
+            background: #ffeef3;
+            border-radius: 48px;
+            padding: 1.4rem;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-left: 8px solid #ff99bb;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .surprise-card h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #bc3f64;
+            margin-bottom: 0.5rem;
+        }
+
+        .surprise-card p {
+            font-size: 1rem;
+            color: #6c3e4c;
+        }
+
+        .gif-area {
+            margin: 1rem 0;
+            font-size: 4rem;
+            letter-spacing: 8px;
+        }
+
+        .heart-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            color: #ff7b9c;
+        }
+
+        footer {
+            background: #ffeef3;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.7rem;
+            color: #ac7e8c;
+            border-top: 1px solid #ffdae4;
+        }
+
+        /* responsividade */
+        @media (max-width: 550px) {
+            .container {
+                border-radius: 40px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .question-text {
+                font-size: 1.6rem;
+            }
+            .btn {
+                font-size: 1.2rem;
+                padding: 0.6rem 1.4rem;
+            }
+            .message-card p {
+                font-size: 0.9rem;
+            }
+            .romantic-photo {
+                max-width: 220px;
+            }
+        }
+
+        .click-pop {
+            animation: pop 0.3s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07); background-color: #ffbcd0; }
+            100% { transform: scale(1); }
+        }
+
+        .fade-slide-up {
+            animation: fadeSlideUp 0.6s ease-out;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="floating-hearts" id="floatingHearts"></div>
+
+<div class="container">
+    <div class="hero">
+        <i class="fas fa-feather-alt"></i>
+        <h1>Uma carta pra você</h1>
+        <div class="sub"><i class="fas fa-star-of-life"></i> Do fundo do coração <i class="fas fa-star-of-life"></i></div>
+    </div>
+
+    <div class="content">
+        <!-- Mensagem personalizada com o texto que o usuário enviou -->
+        <div class="message-card">
+            <p>🌸 <strong>Não quero apressar nada</strong>, porque acredito que as coisas boas precisam de tempo para crescer da forma certa. Mas também não quero esconder o que sinto, nem fingir que isto é algo simples, porque para mim não é.</p>
+            <p>💖 <strong>Gosto de ti de verdade</strong>, e cada momento contigo só reforça isso. Gosto da tua forma de ser, da tua energia, da maneira como me fazes sentir tranquilo e ao mesmo tempo motivado.</p>
+            <p>✨ <strong>Quero estar contigo de verdade</strong>, sem jogos, sem pressa, mas com intenção. Quero construir algo leve, sincero, com respeito, parceria e acima de tudo, verdade. Algo que comece bem e cresça melhor ainda.</p>
+            <p>🌹 <strong>Não estou aqui só por estar… estou porque te escolho</strong>, e gostava de saber se também me escolhes.</p>
+            <div class="signature">Com todo meu carinho, <i class="fas fa-heart" style="font-size: 0.9rem;"></i></div>
+        </div>
+
+        <!-- FOTO (coloque o caminho da sua imagem aqui) -->
+        <div class="photo-area">
+            <img class="romantic-photo" id="romanticImage" src="clema.jpeg" alt="Nosso momento especial">
+        </div>
+
+        <!-- PERGUNTA: QUERES NAMORAR COMIGO? -->
+        <div class="question-box">
+            <div class="question-text">
+                <i class="fas fa-question-circle"></i> Queres namorar comigo?
+            </div>
+            <div class="question-sub">
+                <i class="fas fa-heart"></i> Diz sim e vamos fazer esta história ainda mais linda <i class="fas fa-heart"></i>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-yes" id="yesButton"><i class="fas fa-check-circle"></i> SIM, ACEITO!</button>
+            <button class="btn btn-no" id="noButton"><i class="fas fa-heart-broken"></i> Não... (clica?)</button>
+        </div>
+
+        <!-- região da resposta romântica -->
+        <div id="responseArea" class="surprise-card hidden">
+            <div class="heart-gallery">
+                <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+            </div>
+            <h3 id="responseTitle">💖 Você disse SIM! 💖</h3>
+            <div id="responseMessage" class="gif-area">
+                🌹🥰🎉
+            </div>
+            <p id="responseText">Agora somos oficialmente namorados! Prometo te fazer feliz todos os dias. Te amo infinito! 🌷</p>
+            <div class="heart-gallery">
+                <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+            </div>
+        </div>
+        
+        <footer>
+            <i class="fas fa-feather-alt"></i> Feito com todo amor para ti <i class="fas fa-feather-alt"></i>
+        </footer>
+    </div>
+</div>
+
+<script>
+    // ======================== CORAÇÕES FLUTUANTES ========================
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = ['❤️', '💖', '💗', '💓', '💘', '🌸', '🌹', '✨', '💕', '🌺'][Math.floor(Math.random() * 10)];
+        const size = Math.random() * 1.2 + 0.8;
+        heart.style.fontSize = `${size}rem`;
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.animationDuration = `${Math.random() * 4 + 5}s`;
+        heart.style.animationDelay = `${Math.random() * 5}s`;
+        heart.style.opacity = Math.random() * 0.5 + 0.3;
+        document.getElementById('floatingHearts').appendChild(heart);
+        
+        setTimeout(() => {
+            heart.remove();
+        }, 8000);
+    }
+    
+    setInterval(createHeart, 400);
+    for(let i = 0; i < 15; i++) setTimeout(createHeart, i * 200);
+    
+    // ======================== ELEMENTOS ========================
+    const yesBtn = document.getElementById('yesButton');
+    const noBtn = document.getElementById('noButton');
+    const responseArea = document.getElementById('responseArea');
+    const responseTitle = document.getElementById('responseTitle');
+    const responseMessageDiv = document.getElementById('responseMessage');
+    const responseTextP = document.getElementById('responseText');
+    
+    // Mensagens personalizadas de aceitação
+    const loveMessages = [
+        { title: "💖 Meu coração transborda! 💖", gif: "🌸💞🥰🌷💫", text: "Saber que me escolheu faz o meu mundo brilhar! Vamos juntos, com calma, mas com todo o amor do mundo. Te amo! ✨" },
+        { title: "🎀 Combinado então! 🎀", gif: "💌💕🌹🎉💘", text: "Aceito essa parceria com sorriso largo. Prometo respeitar seu tempo, te apoiar e te fazer feliz. Começamos essa linda história! 🌈💑" },
+        { title: "💘 Era tudo que eu queria ouvir 💘", gif: "💍💖🌟🎶🕊️", text: "Teu SIM é o presente mais lindo. Construiremos algo leve, sincero e verdadeiro. Mal posso esperar pelos nossos dias juntos! 🥂🌻" },
+        { title: "🌹 A escolha mais bonita 🌹", gif: "🍬🧸🎀💌✨", text: "Você me escolheu... e eu vou te honrar todos os dias. Prometo cuidar de nós com carinho e amor. Te escolho hoje e sempre! 💪❤️" }
+    ];
+    
+    let alreadyAnswered = false;
+    
+    function showLoveConfirmation(choiceIndex) {
+        if(alreadyAnswered) return;
+        alreadyAnswered = true;
+        
+        const randomMsg = loveMessages[choiceIndex % loveMessages.length];
+        responseTitle.innerHTML = randomMsg.title;
+        responseMessageDiv.innerHTML = `<span style="font-size: 2.5rem;">${randomMsg.gif}</span>`;
+        responseTextP.innerHTML = randomMsg.text;
+        
+        // Revela a área de resposta com animação
+        responseArea.classList.remove('hidden');
+        responseArea.classList.add('fade-slide-up');
+        responseArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // efeito de confetes de coração
+        createConfettiHearts();
+        
+        // efeito de clique no botão
+        yesBtn.classList.add('click-pop');
+        setTimeout(() => yesBtn.classList.remove('click-pop'), 400);
+        
+        // adicionar mais corações no fundo
+        for(let i=0; i<15; i++) {
+            setTimeout(() => createHeart(), i * 70);
+        }
+        
+        // desabilitar os botoes depois da resposta
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+        yesBtn.style.opacity = '0.7';
+        noBtn.style.opacity = '0.7';
+        yesBtn.style.cursor = 'default';
+        noBtn.style.cursor = 'default';
+    }
+    
+    // função para criar explosão de corações
+    function createConfettiHearts() {
+        for(let i = 0; i < 35; i++) {
+            const heartConf = document.createElement('div');
+            heartConf.classList.add('heart');
+            heartConf.innerHTML = ['❤️', '💖', '💗', '💘', '💝', '🌹', '💕', '✨'][Math.floor(Math.random() * 8)];
+            heartConf.style.position = 'fixed';
+            heartConf.style.left = `${Math.random() * 100}%`;
+            heartConf.style.top = `${Math.random() * 80 + 10}%`;
+            heartConf.style.fontSize = `${Math.random() * 1.8 + 1.2}rem`;
+            heartConf.style.animation = 'floatHeart 2.5s ease-out forwards';
+            heartConf.style.opacity = '0.9';
+            heartConf.style.zIndex = '999';
+            document.body.appendChild(heartConf);
+            setTimeout(() => heartConf.remove(), 2500);
+        }
+    }
+    
+    // Evento do SIM
+    yesBtn.addEventListener('click', () => {
+        if(alreadyAnswered) return;
+        showLoveConfirmation(0);
+    });
+    
+    // =============== BOTÃO "NÃO" - FUGA ROMÂNTICA E RENDIÇÃO ===============
+    let noClickCount = 0;
+    const noMessages = [
+        "Tem certeza? 💔 Olha como eu te amo...",
+        "Amor, clica de novo... será que é isso mesmo? 🥺",
+        "Prometo ser o melhor parceiro do mundo, me dá uma chance? 🌷",
+        "O teu coração sabe que é SIM! ❤️‍🔥",
+        "Vamos construir algo leve e sincero, juntos? 💕",
+        "Cada 'não' só me faz querer conquistar-te mais ✨",
+        "Tudo bem, vou insistir com carinho... aceita? 🌹",
+        "Você é a minha escolha, deixa eu ser a tua também? 💖"
+    ];
+    
+    function moveNoButton() {
+        if(alreadyAnswered) return;
+        const btn = noBtn;
+        const container = document.querySelector('.buttons');
+        if(!container) return;
+        
+        const maxX = container.clientWidth - btn.clientWidth - 15;
+        const maxY = container.clientHeight - btn.clientHeight - 10;
+        if(maxX <= 0 || maxY <= 0) return;
+        
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+        btn.style.position = 'relative';
+        btn.style.left = `${randomX}px`;
+        btn.style.top = `${randomY}px`;
+        btn.style.transition = 'all 0.2s ease';
+    }
+    
+    function showFloatingMessage(msg) {
+        const floatMsg = document.createElement('div');
+        floatMsg.innerText = msg;
+        floatMsg.style.position = 'fixed';
+        floatMsg.style.bottom = '20%';
+        floatMsg.style.left = '50%';
+        floatMsg.style.transform = 'translateX(-50%)';
+        floatMsg.style.backgroundColor = '#ffecf0';
+        floatMsg.style.color = '#bc3f64';
+        floatMsg.style.padding = '0.8rem 1.8rem';
+        floatMsg.style.borderRadius = '50px';
+        floatMsg.style.fontWeight = 'bold';
+        floatMsg.style.fontSize = '1rem';
+        floatMsg.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
+        floatMsg.style.zIndex = '1000';
+        floatMsg.style.border = '1px solid #ff99bb';
+        floatMsg.style.backdropFilter = 'blur(8px)';
+        floatMsg.style.fontFamily = 'Poppins, sans-serif';
+        floatMsg.style.whiteSpace = 'nowrap';
+        document.body.appendChild(floatMsg);
+        setTimeout(() => {
+            floatMsg.style.opacity = '0';
+            floatMsg.style.transition = '0.5s';
+            setTimeout(() => floatMsg.remove(), 500);
+        }, 1800);
+    }
+    
+    noBtn.addEventListener('click', (e) => {
+        if(alreadyAnswered) return;
+        e.preventDefault();
+        noClickCount++;
+        
+        // feedback visual
+        noBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => { if(noBtn) noBtn.style.transform = ''; }, 150);
+        
+        if(noClickCount < noMessages.length) {
+            showFloatingMessage(noMessages[noClickCount-1]);
+            moveNoButton();
+            // efeito no botão sim para incentivar
+            yesBtn.style.transform = 'scale(1.03)';
+            setTimeout(() => { yesBtn.style.transform = ''; }, 300);
+        } 
+        
+        // após 5 cliques ou mais, o botão "não" se rende e vira uma opção de SIM
+        if(noClickCount >= 5 && !alreadyAnswered) {
+            // Transforma o botão "não" em um botão de aceitação
+            noBtn.innerHTML = '<i class="fas fa-heart"></i> Quero sim! 💘';
+            noBtn.classList.remove('btn-no');
+            noBtn.classList.add('btn-yes');
+            noBtn.style.position = 'static';
+            noBtn.style.left = '0';
+            noBtn.style.top = '0';
+            // Remove o evento antigo e adiciona novo para chamar o sim
+            const newNoBtn = noBtn.cloneNode(true);
+            noBtn.parentNode.replaceChild(newNoBtn, noBtn);
+            newNoBtn.addEventListener('click', () => {
+                if(alreadyAnswered) return;
+                showLoveConfirmation(2);
+            });
+            showFloatingMessage("Você venceu meu coração! 💖 Vamos namorar!!");
+            createConfettiHearts();
+            return;
+        }
+    });
+    
+    // Reset posição do botão "não" ao redimensionar
+    window.addEventListener('resize', () => {
+        if(noBtn && !alreadyAnswered && noClickCount < 5) {
+            noBtn.style.position = 'static';
+            noBtn.style.left = '0';
+            noBtn.style.top = '0';
+        }
+    });
+    
+    // Pequeno efeito de corações ao carregar a página
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            createConfettiHearts();
+        }, 500);
+        
+        // Instrução para o usuário sobre a foto: permite que ele troque a imagem facilmente
+        // Se quiser, pode substituir o src da imagem. Vamos deixar comentário no console
+        console.log("💖 Para colocar sua foto: altere o atributo 'src' da imagem com a classe 'romantic-photo' para o caminho da sua imagem favorita.");
+    });
+    
+    // Adicionar animação extra ao container da mensagem
+    const style = document.createElement('style');
+    style.textContent = `
+        .btn-yes:active { transform: scale(0.98); }
+        .btn-no:active { transform: scale(0.96); }
+        .romantic-photo {
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Dica visual para a foto: ao clicar, lembrar de trocar a imagem
+    const photoImg = document.getElementById('romanticImage');
+    if(photoImg) {
+        photoImg.addEventListener('click', () => {
+            // Apenas um lembrete amigável
+            showFloatingMessage("💕 Coloque aqui sua foto especial! Basta trocar o link da imagem 💕");
+        });
+    }
+</script>
+</body>
+</html>
