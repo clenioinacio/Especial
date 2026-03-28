@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Meu Pedido de Desculpas | Para Você</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            position: relative;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* FUNDO PRETO COM GRADIENTE ROSA ROMANCE */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 80, 120, 0.2) 0%, rgba(10, 10, 15, 0.98) 70%),
+                        linear-gradient(125deg, #0a0a0f 0%, #1a0f1a 50%, #0a0a0f 100%);
+            z-index: 0;
+        }
+
+        /* GRID DIGITAL */
+        .digital-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 80, 120, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 80, 120, 0.08) 1px, transparent 1px);
+            background-size: 45px 45px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* LUZES E DESFOQUES */
+        .glow-light {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 80, 120, 0.35) 0%, rgba(255, 120, 160, 0.15) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(70px);
+            z-index: 0;
+            pointer-events: none;
+            animation: floatGlow 12s infinite alternate ease-in-out;
+        }
+
+        .glow-light-1 { top: -20%; left: -20%; animation-duration: 15s; }
+        .glow-light-2 { bottom: -15%; right: -15%; width: 70vw; height: 70vw; background: radial-gradient(circle, rgba(255, 100, 150, 0.4) 0%, rgba(255, 70, 120, 0.2) 50%, transparent 80%); filter: blur(90px); animation-duration: 18s; }
+        .glow-light-3 { top: 40%; left: 30%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255, 140, 170, 0.3) 0%, transparent 70%); filter: blur(100px); animation-duration: 20s; }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0%, 0%) scale(1); opacity: 0.5; }
+            100% { transform: translate(5%, 8%) scale(1.2); opacity: 0.8; }
+        }
+
+        /* PAINEL PRINCIPAL DESFOCADO */
+        .glass-panel {
+            position: relative;
+            z-index: 20;
+            max-width: 620px;
+            width: 100%;
+            background: rgba(15, 12, 20, 0.55);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 100, 150, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 120, 160, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .content-inner {
+            padding: 2rem 1.8rem 2rem;
+            text-align: center;
+        }
+
+        .apology-header {
+            margin-bottom: 1rem;
+        }
+
+        .heart-icon {
+            font-size: 3.5rem;
+            color: #ff6b8f;
+            filter: drop-shadow(0 0 12px rgba(255, 80, 120, 0.6));
+            animation: pulseSoft 2s infinite;
+        }
+
+        @keyframes pulseSoft {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); text-shadow: 0 0 18px #ff99bb; }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 20%, #ffb6d0 60%, #ff8aae 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 0.3rem;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: rgba(255, 210, 220, 0.8);
+            margin-top: 0.4rem;
+        }
+
+        /* MENSAGEM DE DESCULPA PERSONALIZADA */
+        .message-box {
+            background: rgba(255, 240, 245, 0.08);
+            border-radius: 32px;
+            padding: 1.6rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 120, 150, 0.25);
+            backdrop-filter: blur(4px);
+            text-align: left;
+            max-height: 55vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .message-box::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .message-box::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .message-box::-webkit-scrollbar-thumb {
+            background: #ff6b8f;
+            border-radius: 10px;
+        }
+
+        .message-box p {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #f0e6ec;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .message-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .signature {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            text-align: right;
+            color: #ffb3c8;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        /* BOTÕES */
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 0.85rem 2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-forgive {
+            background: linear-gradient(105deg, #ff5f89, #ff3a6f);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 60, 100, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-forgive:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 28px rgba(255, 60, 100, 0.6);
+        }
+
+        .btn-think {
+            background: rgba(30, 25, 35, 0.7);
+            backdrop-filter: blur(12px);
+            color: #ffbfd0;
+            border: 1px solid rgba(255, 100, 130, 0.5);
+        }
+
+        .btn-think:hover {
+            background: rgba(50, 40, 55, 0.8);
+            transform: scale(0.98);
+        }
+
+        /* MODAL PARA MOTIVO DO NÃO */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(20, 15, 28, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            max-width: 450px;
+            width: 100%;
+            padding: 2rem;
+            border: 1px solid rgba(255, 100, 150, 0.5);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #ffb8ce;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content p {
+            color: #ffdee8;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 120, 150, 0.5);
+            border-radius: 24px;
+            padding: 1rem;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content textarea:focus {
+            outline: none;
+            border-color: #ff6b8f;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-send {
+            background: linear-gradient(105deg, #ff5f89, #ff3a6f);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.15);
+            color: #ffbfd0;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ELEMENTOS FLUTUANTES */
+        .floating-roses {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .float-item {
+            position: absolute;
+            font-size: 1rem;
+            opacity: 0.3;
+            animation: floatUp 12s linear infinite;
+            color: #ff99bb;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        footer {
+            margin-top: 1.2rem;
+            font-size: 0.65rem;
+            color: rgba(255, 180, 200, 0.5);
+            text-align: center;
+        }
+
+        .click-effect {
+            animation: gentlePop 0.25s ease;
+        }
+
+        @keyframes gentlePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 550px) {
+            .content-inner { padding: 1.5rem 1.2rem; }
+            h1 { font-size: 1.6rem; }
+            .message-box p { font-size: 0.85rem; }
+            .btn { padding: 0.7rem 1.4rem; font-size: 0.9rem; }
+            .heart-icon { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="digital-grid"></div>
+<div class="glow-light glow-light-1"></div>
+<div class="glow-light glow-light-2"></div>
+<div class="glow-light glow-light-3"></div>
+<div class="floating-roses" id="floatingRoses"></div>
+
+<div class="glass-panel">
+    <div class="content-inner">
+        <div class="apology-header">
+            <i class="fas fa-heart heart-icon"></i>
+            <h1>Me perdoa?</h1>
+            <div class="subtitle">
+                <i class="fas fa-star-of-life"></i> Do fundo do coração <i class="fas fa-star-of-life"></i>
+            </div>
+        </div>
+
+        <!-- MENSAGEM PERSONALIZADA COMPLETA -->
+        <div class="message-box">
+            <p>💔 <strong>Eu não quero deixar as coisas do jeito que estão</strong>, eu não quero que o vento leve o que sobrou de nós.</p>
+            <p>🌹 Eu peço desculpas pelo que aconteceu, podes não admitir mas eu sei que te decepcionei desde o primeiro momento em que decidi te pedir em namoro as coisas começaram a esfriar desde então. Não estou a tentar justificar nada, apenas assumir o que fiz de errado.</p>
+            <p>😔 <strong>Eu confesso que fui um idiota em pedir-te pela segunda vez</strong>, e ter puxado quando tu é que disseste para esperar tu puxares. Agi com precipitação em certos momentos, especialmente quando insisti onde devia ter tido mais paciência e respeito pelo teu tempo. Lamento por isso.</p>
+            <p>💖 <strong>Eu gosto de ti de verdade</strong>, e valorizo o que temos, e eu não quero ter que parar de falar contigo principalmente por um erro que podemos consertar. Não quero perder a tua presença na minha vida sem pelo menos tentar fazer melhor.</p>
+            <p>🕊️ Também entendo que possas precisar de espaço, e se essa for a tua decisão, eu vou respeitar. Mas, se houver abertura da tua parte, gostava de ter a oportunidade de corrigir o que errei e mostrar-te, com atitudes, que posso ser melhor, <strong>eu vou ser melhor e vou mostrar o meu valor para ti e para nós.</strong></p>
+            <p>🎬 Se te sentires confortável, podíamos passar um tempo juntos, sem pressão… talvez ver um filme, conversar com calma… só para nos reencontrarmos um pouco.</p>
+            <p>✨ Independentemente da tua resposta, quero que saibas que estou a falar contigo com respeito, sinceridade e intenção de crescer.</p>
+            <div class="signature"><i class="fas fa-heart" style="font-size: 0.7rem;"></i> Me perdoa <i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="actions">
+            <button class="btn btn-forgive" id="forgiveBtn"><i class="fas fa-check-circle"></i> Te perdoo ❤️</button>
+            <button class="btn btn-think" id="thinkBtn"><i class="fas fa-heart-broken"></i> Não consigo perdoar agora</button>
+        </div>
+        
+        <footer>
+            <i class="fas fa-feather-alt"></i> Fale com o coração, estou aqui <i class="fas fa-feather-alt"></i>
+        </footer>
+    </div>
+</div>
+
+<!-- MODAL PARA MOTIVO DO NÃO -->
+<div id="reasonModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-heart-broken" style="font-size: 2.5rem; color: #ff6b8f; margin-bottom: 0.5rem;"></i>
+        <h3>Me conte o motivo</h3>
+        <p>Seu feedback é importante para mim. Quero entender e melhorar.</p>
+        <textarea id="reasonText" rows="4" placeholder="Escreva aqui o motivo... (opcional, mas vai me ajudar a ser melhor)"></textarea>
+        <div class="modal-actions">
+            <button class="btn-send" id="sendReasonBtn"><i class="fab fa-whatsapp"></i> Enviar no WhatsApp</button>
+            <button class="btn-cancel" id="cancelModalBtn">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // NÚMERO DE WHATSAPP
+    const WHATSAPP_NUMBER = "939346549";
+    const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
+
+    // ELEMENTOS FLUTUANTES
+    function createFloatElement() {
+        const container = document.getElementById('floatingRoses');
+        if (!container) return;
+        const el = document.createElement('div');
+        el.classList.add('float-item');
+        const icons = ['❤️', '💖', '🌹', '🌸', '✨', '💗', '🌺', '💕', '🥀', '⭐'];
+        el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+        el.style.fontSize = `${Math.random() * 1.4 + 0.7}rem`;
+        el.style.left = `${Math.random() * 100}%`;
+        el.style.animationDuration = `${Math.random() * 8 + 7}s`;
+        el.style.animationDelay = `${Math.random() * 8}s`;
+        el.style.opacity = Math.random() * 0.5 + 0.2;
+        container.appendChild(el);
+        setTimeout(() => { if(el) el.remove(); }, 15000);
+    }
+    setInterval(createFloatElement, 500);
+    for(let i = 0; i < 20; i++) setTimeout(createFloatElement, i * 200);
+
+    // EFEITO DE CLIQUE
+    function addClickEffect(btn) {
+        btn.addEventListener('click', (e) => {
+            btn.classList.add('click-effect');
+            setTimeout(() => btn.classList.remove('click-effect'), 250);
+        });
+    }
+
+    // MENSAGEM FLUTUANTE
+    function showFloatingMessage(msg, isError = false) {
+        const floatDiv = document.createElement('div');
+        floatDiv.innerText = msg;
+        floatDiv.style.position = 'fixed';
+        floatDiv.style.bottom = '15%';
+        floatDiv.style.left = '50%';
+        floatDiv.style.transform = 'translateX(-50%)';
+        floatDiv.style.backgroundColor = isError ? 'rgba(200, 60, 80, 0.9)' : 'rgba(20, 15, 28, 0.9)';
+        floatDiv.style.backdropFilter = 'blur(12px)';
+        floatDiv.style.color = '#ffbfd0';
+        floatDiv.style.padding = '0.7rem 1.5rem';
+        floatDiv.style.borderRadius = '60px';
+        floatDiv.style.fontWeight = '500';
+        floatDiv.style.fontSize = '0.9rem';
+        floatDiv.style.border = '1px solid #ff7b9e';
+        floatDiv.style.zIndex = '300';
+        floatDiv.style.fontFamily = 'Inter, sans-serif';
+        floatDiv.style.whiteSpace = 'nowrap';
+        floatDiv.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+        document.body.appendChild(floatDiv);
+        setTimeout(() => {
+            floatDiv.style.opacity = '0';
+            floatDiv.style.transition = '0.4s';
+            setTimeout(() => floatDiv.remove(), 500);
+        }, 2500);
+    }
+
+    // FUNÇÃO PARA REDIRECIONAR PARA WHATSAPP COM MENSAGEM
+    function sendToWhatsApp(message) {
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`${WHATSAPP_LINK}${encodedMessage}`, '_blank');
+    }
+
+    // MENSAGEM DE PERDÃO (SIM)
+    const forgiveBtn = document.getElementById('forgiveBtn');
+    let alreadyResponded = false;
+
+    forgiveBtn.addEventListener('click', () => {
+        if(alreadyResponded) return;
+        alreadyResponded = true;
+        
+        // Mensagem que será enviada para o WhatsApp
+        const message = "💖 *EU TE PERDOO!* 💖\n\nRecebi seu pedido de desculpas e aceito seu perdão. Vamos recomeçar com mais calma e sinceridade. Te perdoo de coração. 🌹✨";
+        
+        // Efeito visual de corações
+        createHeartExplosion();
+        showFloatingMessage("💕 Obrigado! Redirecionando para o WhatsApp... 💕");
+        
+        // Pequeno delay para o efeito visual
+        setTimeout(() => {
+            sendToWhatsApp(message);
+        }, 500);
+        
+        // Desabilita os botões
+        forgiveBtn.disabled = true;
+        thinkBtn.disabled = true;
+        forgiveBtn.style.opacity = '0.6';
+        thinkBtn.style.opacity = '0.6';
+    });
+
+    // MODAL PARA O NÃO
+    const thinkBtn = document.getElementById('thinkBtn');
+    const modal = document.getElementById('reasonModal');
+    const reasonText = document.getElementById('reasonText');
+    const sendReasonBtn = document.getElementById('sendReasonBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+
+    let noResponseGiven = false;
+
+    thinkBtn.addEventListener('click', () => {
+        if(alreadyResponded) return;
+        // Abre o modal
+        modal.classList.add('active');
+    });
+
+    // Fechar modal
+    function closeModal() {
+        modal.classList.remove('active');
+        reasonText.value = '';
+    }
+
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    // Enviar motivo via WhatsApp
+    sendReasonBtn.addEventListener('click', () => {
+        if(alreadyResponded) return;
+        
+        let motivo = reasonText.value.trim();
+        let message = "";
+        
+        if (motivo === "") {
+            message = "💔 *NÃO CONSIGO PERDOAR AGORA* 💔\n\nRecebi seu pedido de desculpas, mas ainda não consigo perdoar. Não quis dar um motivo específico agora, mas espero que possamos conversar mais tarde. 🥺";
+        } else {
+            message = `💔 *NÃO CONSIGO PERDOAR AGORA* 💔\n\n**Motivo:** ${motivo}\n\nRecebi seu pedido de desculpas. Espero que possamos conversar e resolver isso com calma. 🥺🌹`;
+        }
+        
+        alreadyResponded = true;
+        closeModal();
+        
+        createHeartExplosion(true); // efeito visual triste mas respeitoso
+        showFloatingMessage("💌 Mensagem enviada! Obrigado pela sinceridade.", false);
+        
+        setTimeout(() => {
+            sendToWhatsApp(message);
+        }, 400);
+        
+        // Desabilita os botões
+        forgiveBtn.disabled = true;
+        thinkBtn.disabled = true;
+        forgiveBtn.style.opacity = '0.6';
+        thinkBtn.style.opacity = '0.6';
+    });
+
+    // Efeito de explosão de corações
+    function createHeartExplosion(isSad = false) {
+        const colors = isSad ? ['💔', '🥀', '💧', '🌹'] : ['❤️', '💖', '💗', '🌹', '💘', '✨', '🌸'];
+        for(let i = 0; i < 35; i++) {
+            const heart = document.createElement('div');
+            heart.style.position = 'fixed';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `${Math.random() * 90 + 5}%`;
+            heart.style.fontSize = `${Math.random() * 2 + 1.2}rem`;
+            heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '200';
+            heart.style.animation = 'floatUp 2s ease-out forwards';
+            heart.style.opacity = '0.9';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    }
+
+    addClickEffect(forgiveBtn);
+    addClickEffect(thinkBtn);
+
+    // Efeito de brilho no painel
+    const panel = document.querySelector('.glass-panel');
+    if(panel) {
+        panel.addEventListener('mousemove', (e) => {
+            const rect = panel.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            panel.style.boxShadow = `0 25px 45px rgba(0,0,0,0.4), 0 0 15px rgba(255,100,150,0.3), inset 0 1px 0 rgba(255,255,255,0.1)`;
+        });
+        panel.addEventListener('mouseleave', () => {
+            panel.style.boxShadow = '0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 120, 160, 0.2), inset 0 1px 0 rgba(255,255,255,0.05)';
+        });
+    }
+
+    // Pequena animação inicial
+    setTimeout(() => {
+        createHeartExplosion();
+    }, 300);
+</script>
+</body>
+</html>
